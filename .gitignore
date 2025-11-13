@@ -1,0 +1,113 @@
+# Python
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# API Keys and Secrets
+secrets.json
+config.json
+*.key
+*.pem
+
+# Data files (문서, 벡터 DB 등)
+data/raw/*
+data/processed/*
+data/vectorstore/*
+results/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/vectorstore/.gitkeep
+!results/.gitkeep
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# ChromaDB
+chroma/
+chromadb/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+*~
+
+# Large files
+*.zip
+*.tar.gz
+*.pdf
+*.docx
+*.pptx
+*.xlsx
+
+/results
