@@ -29,8 +29,7 @@
 
 ```bash
 # 저장소 클론
-git clone https://github.com/yourusername/public-handover-ai.git
-cd public-handover-ai
+git clone https://github.com/AI-Agent-PJ-sassac/ai_agent_with_sassac.git
 
 # uv 설치
 pip install uv
