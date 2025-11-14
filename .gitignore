@@ -20,9 +20,11 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+__pycache__/
 
 # Virtual Environment
 venv/
+.venv/
 env/
 ENV/
 env.bak/
@@ -50,6 +52,9 @@ config.json
 *.pem
 
 # Data files (문서, 벡터 DB 등)
+# 주의: data/ 폴더의 실제 문서들은 Git에 포함시킬 수도 있음
+# 필요에 따라 아래 주석 해제
+# data/
 data/raw/*
 data/processed/*
 data/vectorstore/*
@@ -93,6 +98,7 @@ dmypy.json
 # ChromaDB
 chroma/
 chromadb/
+chroma_db/
 
 # Temporary files
 tmp/
@@ -102,12 +108,15 @@ temp/
 *.swp
 *~
 
-# Large files
-*.zip
-*.tar.gz
-*.pdf
-*.docx
-*.pptx
-*.xlsx
+# uv (추가)
+uv.lock
 
-/results
+# Large files (선택적 - 프로젝트 특성에 따라)
+# PDF, DOCX 등 문서 파일을 Git에 포함할지 결정 필요
+# *.zip
+# *.tar.gz
+# 아래는 주석 처리 - 템플릿 문서는 Git에 포함시킬 수도 있음
+# *.pdf
+# *.docx
+# *.pptx
+# *.xlsx
