@@ -1,7 +1,6 @@
 # Core LangChain & LangGraph
 langchain>=0.1.0
 langchain-core>=0.1.0
-langchain-chains>=0.1.0
 langgraph>=0.0.20
 langchain-openai>=0.0.5
 langchain-upstage>=0.1.0
@@ -45,10 +44,10 @@ mypy>=1.0.0
 # Logging & Monitoring
 loguru>=0.7.0
 
-# Optional: Korean NLP (필요시 주석 해제)
+# Optional: Korean NLP (if needed, uncomment)
 konlpy==0.6.0
 soynlp==0.0.493
 
-# Optional: Alternative Embeddings (필요시 주석 해제)
-sentence-transformers==2.3.1
-transformers==4.37.0
+# Optional: Alternative Embeddings (if needed, uncomment)
+sentence-transformers>=2.3.1
+transformers>=4.46.0

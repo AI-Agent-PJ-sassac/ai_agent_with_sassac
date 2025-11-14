@@ -1,0 +1,62 @@
+[project]
+name = "ai-agent-with-sassac"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    # Core LangChain & LangGraph
+    "langchain>=0.1.0",
+    "langchain-core>=0.1.0",
+    "langgraph>=0.0.20",
+    "langchain-openai>=0.0.5",
+    "langchain-upstage>=0.1.0",
+    "langchain-community>=0.0.13",
+    
+    # Vector Store
+    "chromadb>=0.5.0",
+    "faiss-cpu>=1.8.0",
+    "numpy<2.0",
+    
+    # Document Processing
+    "pypdf2>=3.0.0",
+    "python-docx>=1.0.0",
+    "python-pptx>=0.6.21",
+    "openpyxl>=3.1.0",
+    "pandas>=2.0.0",
+    
+    # LLM & Embeddings
+    "openai>=1.0.0",
+    "tiktoken>=0.5.0",
+    
+    # Web Framework
+    "streamlit>=1.30.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.20.0",
+    
+    # Utilities
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    
+    # Search & Retrieval
+    "rank-bm25>=0.2.2",
+    
+    # Development & Testing
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    
+    # Logging & Monitoring
+    "loguru>=0.7.0",
+    
+    # Optional: Korean NLP
+    "konlpy==0.6.0",
+    "soynlp==0.0.493",
+    
+    # Optional: Alternative Embeddings
+    "sentence-transformers>=2.3.1",
+    "transformers>=4.46.0",
+]

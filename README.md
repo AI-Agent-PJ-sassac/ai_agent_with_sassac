@@ -25,6 +25,29 @@
 
 ### 1. 환경 설정
 
+#### 방법 A: uv 사용 (⚡ 추천 - 10배 빠름)
+
+```bash
+# 저장소 클론
+git clone https://github.com/yourusername/public-handover-ai.git
+cd public-handover-ai
+
+# uv 설치
+pip install uv
+
+# 의존성 설치 (자동으로 가상환경 생성)
+uv sync
+
+# 가상환경 활성화
+# Windows
+.venv\Scripts\activate
+
+# macOS/Linux
+source .venv/bin/activate
+```
+
+#### 방법 B: pip 사용 (전통적인 방법)
+
 ```bash
 # 저장소 클론
 git clone https://github.com/yourusername/public-handover-ai.git
@@ -189,7 +212,8 @@ public-handover-ai/
 ├── document_loader.py          # 문서 로더
 ├── save_results.py             # 결과 저장
 │
-├── requirements.txt            # 패키지 목록
+├── requirements.txt            # 패키지 목록 (pip용)
+├── pyproject.toml              # 프로젝트 설정 (uv용)
 ├── .env.example               # 환경변수 템플릿
 ├── .gitignore
 └── README.md
@@ -245,6 +269,10 @@ public-handover-ai/
 - **PyPDF2**: PDF 처리
 - **python-docx**: Word 문서 처리
 
+### Package Manager
+- **uv**: 초고속 Python 패키지 관리자 (10-20배 빠름)
+- **pip**: 전통적인 패키지 관리자
+
 ### Others
 - **Python 3.10+**
 - **python-dotenv**: 환경 변수 관리
@@ -291,11 +319,24 @@ python workflow.py
 ### 벡터 DB 재생성
 
 ```bash
-# 기존 DB 삭제
+# 기존 DB 삭제 (Windows)
+rmdir /s chroma_db
+
+# 기존 DB 삭제 (macOS/Linux)
 rm -rf chroma_db/
 
 # 새로 생성
 python vector_store.py
+```
+
+### 패키지 추가 설치
+
+```bash
+# uv 사용 시
+uv add 패키지명
+
+# pip 사용 시
+pip install 패키지명
 ```
 
 ---
@@ -325,6 +366,21 @@ python chat.py
 ```bash
 # 해결: data/ 폴더에 문서 추가 후 벡터 DB 재생성
 python vector_store.py
+```
+
+### 5. NumPy 버전 오류
+```bash
+# 해결: NumPy 다운그레이드
+uv pip install "numpy<2.0"
+# 또는
+pip install "numpy<2.0"
+```
+
+### 6. tokenizers 빌드 오류
+```bash
+# 해결: transformers 업그레이드 또는 주석 처리
+# requirements.txt에서 transformers 라인을 주석 처리하거나
+uv pip install "transformers>=4.46.0"
 ```
 
 ---
