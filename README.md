@@ -30,20 +30,32 @@
 ```bash
 # 저장소 클론
 git clone https://github.com/AI-Agent-PJ-sassac/ai_agent_with_sassac.git
+cd ai_agent_with_sassac
 
 # uv 설치
 pip install uv
+
+# Python 3.11로 버전 고정 (중요!)
+uv python pin 3.11
 
 # 의존성 설치 (자동으로 가상환경 생성)
 uv sync
 
 # 가상환경 활성화
-# Windows
+# Windows (Git Bash)
+source .venv/Scripts/activate
+
+# Windows (PowerShell/CMD)
 .venv\Scripts\activate
 
 # macOS/Linux
 source .venv/bin/activate
 ```
+
+> **⚠️ 중요**: 
+> - Python 3.13은 일부 패키지와 호환성 문제가 있습니다
+> - 반드시 **Python 3.11 또는 3.12**를 사용하세요
+> - `uv python pin 3.11` 명령어로 Python 버전을 고정해야 합니다
 
 #### 방법 B: pip 사용 (전통적인 방법)
 
@@ -273,7 +285,7 @@ public-handover-ai/
 - **pip**: 전통적인 패키지 관리자
 
 ### Others
-- **Python 3.10+**
+- **Python 3.11 또는 3.12** (3.13은 호환성 문제로 비추천)
 - **python-dotenv**: 환경 변수 관리
 
 ---
@@ -341,6 +353,24 @@ pip install 패키지명
 ---
 
 ## 🐛 트러블슈팅
+
+### 0. Python 버전 오류 (가장 흔한 문제!)
+```bash
+# 증상: "requires-python" 오류 또는 numpy 빌드 실패
+
+# 해결 1: .python-version 파일 확인 및 수정
+cat .python-version  # 현재 버전 확인
+uv python pin 3.11   # Python 3.11로 고정
+
+# 해결 2: 가상환경 재생성
+rm -rf .venv
+uv venv --python 3.11
+source .venv/Scripts/activate  # Windows Git Bash
+uv sync
+
+# 해결 3: Python 버전 확인
+python --version  # Python 3.11.x 또는 3.12.x 나와야 함
+```
 
 ### 1. 벡터 DB를 찾을 수 없습니다
 ```bash
