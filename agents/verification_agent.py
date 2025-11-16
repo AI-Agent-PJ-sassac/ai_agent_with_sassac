@@ -98,8 +98,6 @@ class VerificationAgent:
     
     def verify(self, state: VerificationState) -> VerificationState:
         """답변의 품질을 종합적으로 검증합니다."""
-        print(f"\n✔️  검증 Agent 작동")
-        
         all_warnings = []
         
         all_warnings.extend(self._check_document_freshness(
@@ -113,13 +111,6 @@ class VerificationAgent:
         all_warnings.extend(self._check_urgency_handling(state))
         
         is_verified = len(all_warnings) == 0
-        
-        if all_warnings:
-            print(f"   ⚠️  {len(all_warnings)}개의 경고:")
-            for warning in all_warnings:
-                print(f"      {warning}")
-        else:
-            print(f"   ✅ 모든 검증 통과")
         
         new_state = {
             **state,

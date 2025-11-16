@@ -3,8 +3,12 @@
 대화형 인터페이스 - 질문하고 답변 받기
 """
 
+import warnings
 from workflow import HandoverWorkflow
 import sys
+
+# 경고 메시지 숨기기
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 def print_header():
     """헤더 출력"""

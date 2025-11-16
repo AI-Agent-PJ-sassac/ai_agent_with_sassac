@@ -102,11 +102,6 @@ class HandoverWorkflow:
         Returns:
             최종 상태 (답변 포함)
         """
-        print("\n" + "=" * 60)
-        print("🚀 AI Agent 워크플로우 시작")
-        print("=" * 60)
-        print(f"질문: {question}")
-        
         # 초기 상태
         initial_state = {
             "question": question,
@@ -128,21 +123,14 @@ class HandoverWorkflow:
             # 워크플로우 실행
             final_state = self.app.invoke(initial_state)
             
-            print("\n" + "=" * 60)
-            print("✅ 워크플로우 완료")
-            print("=" * 60)
-            
-            # 결과 저장
+            # 결과 저장 (조용히)
             if save_result and final_state.get("answer"):
-                print("\n💾 결과 저장 중...")
                 try:
-                    # 3가지 형식으로 저장
-                    txt_path = save_to_txt(final_state, output_dir="results")
-                    json_path = save_to_json(final_state, output_dir="results")
-                    md_path = save_to_markdown(final_state, output_dir="results")
-                    print(f"✅ 저장 완료!")
+                    save_to_txt(final_state, output_dir="results")
+                    save_to_json(final_state, output_dir="results")
+                    save_to_markdown(final_state, output_dir="results")
                 except Exception as e:
-                    print(f"⚠️  저장 중 오류: {e}")
+                    pass
             
             return final_state
             

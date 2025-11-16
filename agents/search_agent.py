@@ -1,12 +1,16 @@
 # agents/search_agent.py
 
 import os
+import warnings
 from dotenv import load_dotenv
 from typing import TypedDict, List, Dict, Any
 
 from langchain_core.documents import Document
 from langchain_community.vectorstores import Chroma
 from langchain_upstage import UpstageEmbeddings
+
+# 경고 메시지 숨기기
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 # .env 파일 로드
 load_dotenv()
@@ -53,9 +57,7 @@ class SearchAgent:
                 persist_directory=vectorstore_path,
                 embedding_function=self.embedding_function
             )
-            print(f"✅ 벡터 DB 로드 완료: {vectorstore_path}")
         else:
-            print(f"⚠️  벡터 DB를 찾을 수 없습니다: {vectorstore_path}")
             self.vectorstore = None
     
     def _classify_documents(self, docs: List[Document]) -> Dict[str, List[Document]]:
@@ -103,11 +105,7 @@ class SearchAgent:
         document_type = state.get("document_type")
         urgency = state.get("urgency", "보통")
         
-        print(f"\n🔍 검색 Agent 작동: '{question}'")
-        print(f"   의도: {intent}, 문서유형: {document_type}, 긴급도: {urgency}")
-        
         if not self.vectorstore:
-            print("   ❌ 벡터 DB를 사용할 수 없습니다.")
             return {
                 **state,
                 "search_results": [],
@@ -119,7 +117,6 @@ class SearchAgent:
         try:
             # 1. 벡터 검색
             search_results = self.vectorstore.similarity_search(question, k=10)
-            print(f"   📦 초기 검색 결과: {len(search_results)}개 문서")
             
             # 2. 메타데이터 필터 적용
             filters = {
@@ -127,14 +124,9 @@ class SearchAgent:
                 "urgency": urgency
             }
             filtered_results = self._apply_filters(search_results, filters)
-            print(f"   🎯 필터 적용 후: {len(filtered_results)}개 문서")
             
             # 3. 문서 분류
             classified = self._classify_documents(filtered_results)
-            
-            print(f"   📄 템플릿: {len(classified['templates'])}개")
-            print(f"   💡 예시: {len(classified['examples'])}개")
-            print(f"   🔗 관련 문서: {len(classified['related'])}개")
             
             # 4. 상태 업데이트
             new_state = {
@@ -145,13 +137,9 @@ class SearchAgent:
                 "related": classified["related"][:3]
             }
             
-            print(f"   ✅ 검색 완료")
             return new_state
             
         except Exception as e:
-            print(f"   ❌ 검색 중 오류 발생: {e}")
-            import traceback
-            traceback.print_exc()
             return {
                 **state,
                 "search_results": [],

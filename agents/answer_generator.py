@@ -140,8 +140,6 @@ class AnswerGenerator:
         document_type = state.get("document_type", "알 수 없음")
         urgency = state.get("urgency", "보통")
         
-        print(f"\n✍️  답변 생성 Agent 작동: '{question}'")
-        
         try:
             # 문서 포맷팅
             templates_str = self._format_documents(state.get("templates", []))
@@ -169,16 +167,9 @@ class AnswerGenerator:
                 "tips": parsed["tips"]
             }
             
-            print(f"   ✅ 답변 생성 완료")
-            print(f"   📌 요약: {parsed['summary'][:50]}...")
-            
             return new_state
             
         except Exception as e:
-            print(f"   ❌ 답변 생성 중 오류: {e}")
-            import traceback
-            traceback.print_exc()
-            
             return {
                 **state,
                 "answer": "죄송합니다. 답변 생성 중 오류가 발생했습니다.",

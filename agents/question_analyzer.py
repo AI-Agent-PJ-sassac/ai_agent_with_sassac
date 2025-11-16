@@ -95,8 +95,6 @@ class QuestionAnalyzer:
         """분석을 실행하고 상태를 업데이트합니다."""
         question = state["question"]
         
-        print(f"\n🔍 질문 분석 Agent 작동: '{question}'")
-        
         # LLM 호출
         response = self.chain.invoke({"question": question})
         
@@ -111,13 +109,9 @@ class QuestionAnalyzer:
                 "document_type": analysis_result.get("document_type"),
                 "urgency": analysis_result.get("urgency", "보통")
             }
-            print(f"   ✅ 분석 결과: 의도={new_state['intent']}, 유형={new_state['document_type']}, 긴급도={new_state['urgency']}")
             return new_state
             
         except (json.JSONDecodeError, ValueError, AttributeError) as e:
-            print(f"   ❌ JSON 파싱 오류: {e}")
-            print(f"   원본 응답: {response.content[:200]}...")
-            print(f"   기본 값 사용.")
             return {
                 "question": question,
                 "intent": "일반_질문",

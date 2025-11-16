@@ -1,8 +1,12 @@
 # vector_store.py
 
 import os
+import warnings
 from dotenv import load_dotenv
 from typing import List, Optional
+
+# 경고 메시지 숨기기
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 # LangChain 코어 및 커뮤니티 모듈
 from langchain_core.documents import Document
@@ -80,10 +84,8 @@ def get_vectorstore() -> Optional[Chroma]:
             persist_directory=CHROMA_PATH, 
             embedding_function=embedding_function
         )
-        print(f"✅ 벡터 DB '{CHROMA_PATH}' 로드 완료.")
         return vectorstore
     except Exception as e:
-        print(f"❌ 벡터 DB 로드 중 오류 발생: {e}")
         return None
 
 
@@ -137,38 +139,41 @@ def search_with_score(query: str, k: int = 5) -> List[tuple]:
         return []
 
 
-# --- 테스트 및 DB 생성 실행 (10개 파일 전체 로드) ---
+# --- 테스트 및 DB 생성 실행 (data 폴더의 모든 파일 자동 로드) ---
 if __name__ == "__main__":
     print("=" * 60)
     print("🚀 벡터 DB 생성 프로세스 시작")
     print("=" * 60)
     
-    # 1. 문서 로드 (10개 파일 경로 전체 사용)
-    document_paths = [
-        "data/1. 보고서_템플릿.docx",
-        "data/2. 출장신청서_양식.pdf",
-        "data/3. 출장신청서_홍길동_예시.pdf",
-        "data/4. 예산신청서_간소화_2024.docx",
-        "data/5. 예산_집행_보고서_작성_팁.pdf",
-        "data/6. 인사_평가_가이드라인.docx",
-        "data/7. 장비구매_절차_안내.pdf",
-        "data/8. 보도자료_작성_예시_2023.pdf",
-        "data/9. 내부결재_기안서_양식.docx",
-        "data/10. 민원처리_응대_FAQ.pdf",
-    ]
+    # 1. data 폴더에서 모든 PDF, DOCX 파일 찾기
+    data_dir = "data"
+    if not os.path.exists(data_dir):
+        print(f"❌ '{data_dir}' 폴더가 존재하지 않습니다.")
+        exit(1)
+    
+    # 지원하는 파일 확장자
+    supported_extensions = ('.pdf', '.docx')
+    
+    # data 폴더의 모든 파일 탐색
+    document_paths = []
+    for filename in os.listdir(data_dir):
+        if filename.lower().endswith(supported_extensions):
+            document_paths.append(os.path.join(data_dir, filename))
+    
+    # 파일명 정렬 (일관성 유지)
+    document_paths.sort()
+    
+    print(f"\n📂 발견된 문서: {len(document_paths)}개")
+    print("-" * 60)
 
     all_documents = []
     
-    print("\n📂 문서 로드 시작...")
-    print("-" * 60)
+    print("\n📄 문서 로드 중...")
     for path in document_paths:
-        if os.path.exists(path):
-            print(f"  📄 로딩 중: {path}")
-            loaded = load_documents(path)
-            all_documents.extend(loaded)
-            print(f"     ✓ {len(loaded)}개 청크 로드됨")
-        else:
-            print(f"  ⚠️  파일 없음: {path}")
+        print(f"  ⏳ {os.path.basename(path)}")
+        loaded = load_documents(path)
+        all_documents.extend(loaded)
+        print(f"     ✓ {len(loaded)}개 청크 로드됨")
 
     print("-" * 60)
     print(f"📊 로드 완료. 총 청크 수: {len(all_documents)}개\n")

@@ -54,7 +54,6 @@ def save_to_txt(result: Dict[str, Any], output_dir: str = "results") -> str:
         
         f.write("\n" + "=" * 80 + "\n")
     
-    print(f"✅ 결과가 저장되었습니다: {filepath}")
     return filepath
 
 
@@ -97,7 +96,6 @@ def save_to_json(result: Dict[str, Any], output_dir: str = "results") -> str:
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(json_data, f, ensure_ascii=False, indent=2)
     
-    print(f"✅ 결과가 저장되었습니다: {filepath}")
     return filepath
 
 
@@ -146,7 +144,6 @@ def save_to_markdown(result: Dict[str, Any], output_dir: str = "results") -> str
         
         f.write("---\n")
     
-    print(f"✅ 결과가 저장되었습니다: {filepath}")
     return filepath
 
 
