@@ -5,6 +5,10 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   server: {
+    allowedHosts: [
+      "makeupagent.store",
+      "www.makeupagent.store"
+    ],
     host: true,
     port: 5173,
     proxy: {
