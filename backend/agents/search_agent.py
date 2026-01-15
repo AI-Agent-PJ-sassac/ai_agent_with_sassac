@@ -3,7 +3,7 @@
 import os
 import warnings
 from dotenv import load_dotenv
-from typing import TypedDict, List, Dict, Any
+from typing import TypedDict, List, Dict, Any, Optional
 
 from langchain_core.documents import Document
 from langchain_community.vectorstores import Chroma
@@ -25,7 +25,7 @@ class SearchState(TypedDict):
     """검색 Agent의 상태"""
     question: str
     intent: str
-    document_type: str | None
+    document_type: Optional[str]
     urgency: str
     search_results: List[Document]
     templates: List[Document]

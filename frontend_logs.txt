@@ -1,0 +1,17 @@
+ai-agent-frontend  | 
+ai-agent-frontend  | > frontend@0.0.0 dev
+ai-agent-frontend  | > vite --host 0.0.0.0
+ai-agent-frontend  | 
+ai-agent-frontend  | You are using Node.js 18.20.8. Vite requires Node.js version 20.19+ or 22.12+. Please upgrade your Node.js version.
+ai-agent-frontend  | error when starting dev server:
+ai-agent-frontend  | TypeError: crypto.hash is not a function
+ai-agent-frontend  |     at getHash (file:///app/node_modules/vite/dist/node/chunks/config.js:2444:19)
+ai-agent-frontend  |     at getLockfileHash (file:///app/node_modules/vite/dist/node/chunks/config.js:32383:9)
+ai-agent-frontend  |     at getDepHash (file:///app/node_modules/vite/dist/node/chunks/config.js:32386:23)
+ai-agent-frontend  |     at initDepsOptimizerMetadata (file:///app/node_modules/vite/dist/node/chunks/config.js:31845:53)
+ai-agent-frontend  |     at createDepsOptimizer (file:///app/node_modules/vite/dist/node/chunks/config.js:34033:17)
+ai-agent-frontend  |     at new DevEnvironment (file:///app/node_modules/vite/dist/node/chunks/config.js:34807:109)
+ai-agent-frontend  |     at Object.defaultCreateClientDevEnvironment [as createEnvironment] (file:///app/node_modules/vite/dist/node/chunks/config.js:35219:9)
+ai-agent-frontend  |     at file:///app/node_modules/vite/dist/node/chunks/config.js:25390:52
+ai-agent-frontend  |     at Array.map (<anonymous>)
+ai-agent-frontend  |     at _createServer (file:///app/node_modules/vite/dist/node/chunks/config.js:25389:58)

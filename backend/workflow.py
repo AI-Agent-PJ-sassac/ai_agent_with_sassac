@@ -6,7 +6,7 @@ LangGraph를 사용한 멀티 에이전트 워크플로우 통합
 
 import os
 from dotenv import load_dotenv
-from typing import TypedDict, List, Annotated
+from typing import TypedDict, List, Annotated, Optional
 from langgraph.graph import StateGraph, END
 from langchain_core.documents import Document
 
@@ -18,6 +18,7 @@ from agents.verification_agent import VerificationAgent
 
 # 결과 저장 함수
 from save_results import save_to_txt, save_to_json, save_to_markdown
+from vector_store import get_db_path
 
 # .env 파일 로드
 load_dotenv()
@@ -31,7 +32,7 @@ class WorkflowState(TypedDict):
     
     # 질문 분석 결과
     intent: str
-    document_type: str | None
+    document_type: Optional[str]
     urgency: str
     
     # 검색 결과
@@ -53,10 +54,14 @@ class WorkflowState(TypedDict):
 class HandoverWorkflow:
     """인수인계 AI 워크플로우 클래스"""
     
-    def __init__(self):
+    def __init__(self, session_id: str = "default"):
         # 각 Agent 초기화
         self.question_analyzer = QuestionAnalyzer()
-        self.search_agent = SearchAgent()
+        
+        # 세션별 벡터 DB 경로 설정
+        db_path = get_db_path(session_id)
+        self.search_agent = SearchAgent(vectorstore_path=db_path)
+        
         self.answer_generator = AnswerGenerator()
         self.verification_agent = VerificationAgent()
         

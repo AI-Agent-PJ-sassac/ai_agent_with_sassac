@@ -120,3 +120,21 @@ uv.lock
 # *.docx
 # *.pptx
 # *.xlsx
+
+# --- AI Agent Migration Specifics ---
+# Backend Data & DB (Strictly Local)
+backend/data/*
+!backend/data/.gitkeep
+backend/chroma_db/
+backend/__pycache__/
+backend/*.log
+backend/results/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*

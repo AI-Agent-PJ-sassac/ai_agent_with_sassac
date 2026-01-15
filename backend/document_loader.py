@@ -25,20 +25,25 @@ def load_documents(file_path: str) -> List[Document]:
     # 1. 문서 로더 선택 및 로드
     file_extension = os.path.splitext(file_path)[1].lower()
     
+    documents = []
+    
     if file_extension == ".pdf":
         loader = PyPDFLoader(file_path)
+        documents = loader.load()
     elif file_extension == ".docx":
-        # Docx2txtLoader는 DOCX 파일을 텍스트로 변환하는 데 사용됩니다.
         loader = Docx2txtLoader(file_path)
+        documents = loader.load()
+    elif file_extension == ".hwp":
+        text = load_hwp(file_path)
+        documents = [Document(page_content=text, metadata={"source": file_path})]
+    elif file_extension == ".hwpx":
+        text = load_hwpx(file_path)
+        documents = [Document(page_content=text, metadata={"source": file_path})]
     else:
         print(f"경고: 지원하지 않는 파일 형식입니다: {file_extension}")
         return []
     
-    # 문서를 Document 객체 리스트로 로드
-    documents = loader.load()
-
     # 2. 텍스트 청크 분할 (청크 크기 1000, 오버랩 200)
-    # 이는 메모리 제약 및 검색 정확도를 위해 문서를 작은 단위로 나누는 과정입니다.
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,
         chunk_overlap=200,
@@ -59,6 +64,57 @@ def load_documents(file_path: str) -> List[Document]:
         doc.metadata["작성연도"] = 0
         
     return chunked_documents
+
+def load_hwp(file_path: str) -> str:
+    """
+    pyhwp를 사용하여 HWP 파일에서 텍스트를 추출합니다.
+    """
+    import subprocess
+    try:
+        # hwp5txt 명령어를 사용하여 텍스트 추출
+        result = subprocess.run(
+            ["hwp5txt", file_path], 
+            capture_output=True, 
+            text=True, 
+            encoding="utf-8"
+        )
+        if result.returncode == 0:
+            return result.stdout
+        else:
+            print(f"HWP extraction failed: {result.stderr}")
+            return ""
+    except Exception as e:
+        print(f"Error reading HWP file: {e}")
+        return ""
+
+def load_hwpx(file_path: str) -> str:
+    """
+    HWPX 파일(ZIP 기반)에서 텍스트를 추출합니다.
+    """
+    import zipfile
+    import xml.etree.ElementTree as ET
+    
+    text_content = []
+    
+    try:
+        with zipfile.ZipFile(file_path, 'r') as z:
+            # HWPX의 본문 데이터는 'Contents/section0.xml' 등에 나뉘어 있음
+            for info in z.infolist():
+                if info.filename.startswith("Contents/section") and info.filename.endswith(".xml"):
+                    with z.open(info.filename) as f:
+                        tree = ET.parse(f)
+                        root = tree.getroot()
+                        # 모든 텍스트 노드 추출 (네임스페이스 무시하고 텍스트만)
+                        for node in root.iter():
+                            if node.text:
+                                text_content.append(node.text)
+                            if node.tail:
+                                text_content.append(node.tail)
+                                
+        return "\n".join(text_content)
+    except Exception as e:
+        print(f"Error reading HWPX file: {e}")
+        return ""
 
 # --- 테스트 코드 (실제 파일 경로로 변경 필요) ---
 if __name__ == "__main__":

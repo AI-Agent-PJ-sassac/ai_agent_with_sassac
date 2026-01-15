@@ -2,7 +2,7 @@
 
 import os
 from dotenv import load_dotenv
-from typing import TypedDict
+from typing import TypedDict, Optional
 import json
 import re
 
@@ -18,7 +18,7 @@ class AnalysisState(TypedDict):
     """LangGraph의 상태 객체"""
     question: str
     intent: str                  # '템플릿_찾기', '프로세스_안내', '담당자_찾기', '일반_질문'
-    document_type: str | None    # '보고서', '신청서', '기안서' 등
+    document_type: Optional[str]    # '보고서', '신청서', '기안서' 등
     urgency: str                 # '높음', '보통', '낮음'
 
 class QuestionAnalyzer:

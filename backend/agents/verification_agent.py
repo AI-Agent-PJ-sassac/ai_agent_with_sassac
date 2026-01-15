@@ -2,7 +2,7 @@
 
 import os
 from dotenv import load_dotenv
-from typing import TypedDict, List
+from typing import TypedDict, List, Optional
 from datetime import datetime
 
 from langchain_core.documents import Document
@@ -16,7 +16,7 @@ class VerificationState(TypedDict):
     """검증 Agent의 상태"""
     question: str
     intent: str
-    document_type: str | None
+    document_type: Optional[str]
     urgency: str
     search_results: List[Document]
     templates: List[Document]
